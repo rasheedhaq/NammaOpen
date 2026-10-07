@@ -2,6 +2,20 @@
 
 NammaOpen is a Bengaluru-first MVP for checking whether a physical shop is open right now. This repo includes a runnable FastAPI backend, a built-in mobile-first PWA, onboarding/status bot webhooks, pilot seed data, and smoke tests.
 
+## Block diagram
+
+```mermaid
+flowchart LR
+    customer["Customer / Local user"] --> pwa["PWA / Public web app<br/>search, shop page, fallbacks"]
+    owner["Shop owner"] --> bot["WhatsApp / Telegram webhook flow<br/>onboarding, 1 / 2 / 3 HH:MM"]
+    pwa --> api["FastAPI backend<br/>public pages + REST APIs"]
+    bot --> api
+    api --> services["Discovery + status + catalog services"]
+    services --> db["SQLite by default<br/>Postgres via DATABASE_URL"]
+    seed["Seed script / pilot data"] --> db
+    tests["Pytest smoke tests"] --> api
+```
+
 ## What is live in this repo
 - Public web app at `/` with search, shop detail pages, service pricing, and fallback suggestions.
 - REST API for shops, status updates, search, reopen subscriptions, payments, and bot webhooks.
